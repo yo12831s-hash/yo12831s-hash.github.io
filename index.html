@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>旅のしおり</title>
+
+  <!-- ホーム画面に置くアプリとしての設定 -->
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <meta name="theme-color" content="#a8d672">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="旅のしおり">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&display=swap">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="sign">
+    <span class="leaf">🍃</span>
+    <h1>旅のしおり</h1>
+  </header>
+
+  <!-- 旅行の切りかえ（JavaScript が中身を作る） -->
+  <nav id="tripTabs" class="trip-tabs" aria-label="旅行"></nav>
+
+  <!-- ここに JavaScript が旅行の予定を書き込む -->
+  <main id="app"></main>
+
+  <!-- 予定を追加・編集するフォーム（ふだんは隠れている） -->
+  <dialog id="eventDialog">
+    <form method="dialog" id="eventForm">
+      <h2 id="eventDialogTitle">🍃 予定を追加</h2>
+      <div class="row">
+        <label>日付<input type="date" id="eventDate" name="date" required></label>
+        <label>時刻<input type="time" id="eventTime" name="time" required></label>
+      </div>
+      <label>予定<input id="eventTitle" name="title" required placeholder="例: 金閣寺を見る"></label>
+      <label>種類
+        <select id="eventCategory" name="category">
+          <option value="move">🚄 移動</option>
+          <option value="sight">📷 観光</option>
+          <option value="food">🍙 食事</option>
+          <option value="stay">🏠 宿泊</option>
+        </select>
+      </label>
+      <label>場所（なくてもOK）<input id="eventPlace" name="place" maxlength="80" placeholder="例: 金閣寺"></label>
+      <label>メモ（なくてもOK）<textarea id="eventMemo" name="memo" rows="3" maxlength="300" placeholder="例: 拝観料 500円・9時から"></textarea></label>
+      <label>アイコン（なくてもOK）<input id="eventIcon" name="icon" maxlength="4" placeholder="例: 🦌"></label>
+      <div class="buttons">
+        <button value="cancel" formnovalidate>やめる</button>
+        <button value="save" class="primary" id="eventSaveButton">追加する</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- 旅行を作る・直すフォーム -->
+  <dialog id="tripDialog">
+    <form method="dialog" id="tripForm">
+      <h2 id="tripDialogTitle">🧳 新しい旅行</h2>
+      <label>旅行の名前<input id="tripTitle" name="title" required maxlength="40" placeholder="例: 北海道 雪まつり"></label>
+      <label>アイコン<input id="tripIcon" name="icon" maxlength="4" placeholder="例: ⛄"></label>
+      <div class="row">
+        <label>出発日<input type="date" id="tripStart" name="start" required></label>
+        <label>帰る日<input type="date" id="tripEnd" name="end" required></label>
+      </div>
+      <div class="buttons">
+        <button type="button" class="danger" id="tripDeleteButton" hidden>この旅行を消す</button>
+        <span class="spacer"></span>
+        <button value="cancel" formnovalidate>やめる</button>
+        <button value="save" class="primary" id="tripSaveButton">作る</button>
+      </div>
+    </form>
+  </dialog>
+
+  <p id="message" class="message" role="status" hidden></p>
+
+  <footer class="footer">🌸 たのしい旅になりますように 🌸</footer>
+
+  <script src="app.js"></script>
+  <script>
+    // オフラインでも使えるように、サービスワーカーを登録する（https のサイトと、手元のテスト用サーバーでだけ動く）
+    if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) {
+      navigator.serviceWorker.register("sw.js");
+    }
+  </script>
+</body>
+</html>

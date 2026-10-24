@@ -1,0 +1,16 @@
+{
+  "name": "旅のしおり",
+  "short_name": "旅のしおり",
+  "description": "旅行の予定を日ごとに見て、追加・編集できるアプリ",
+  "lang": "ja",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#a8d672",
+  "theme_color": "#a8d672",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
